@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.materialsteam.materials.auth.Login;
+import com.materialsteam.materials.auth.SharedPrefManager;
 import com.materialsteam.materials.fragments.AkunFragment;
 import com.materialsteam.materials.fragments.HomeFragment;
 import com.materialsteam.materials.fragments.TukangFragment;
@@ -18,6 +22,11 @@ public class BottomNavigation extends AppCompatActivity implements BottomNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
+
+        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
+            startActivity(new Intent(BottomNavigation.this, Login.class));
+            return;
+        }
 
         loadFragment(new HomeFragment());
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
